@@ -19,8 +19,8 @@
 
 // TODO: comments & organize better
 
-require_once INCLUDE_DIR.'func.array.php';
-require_once INCLUDE_DIR.'func.html.php';
+require_once INCLUDE_DIR . 'func.array.php';
+require_once INCLUDE_DIR . 'func.html.php';
 
 class Player
 {

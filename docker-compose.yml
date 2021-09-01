@@ -1,0 +1,28 @@
+version: '3'
+services:
+    web:
+        image: nginx:latest
+        ports:
+          - "8001:80"
+        volumes:
+          - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+          - ./app:/app
+    php:
+        build:
+            context: .
+            dockerfile: docker/php.dockerfile
+        volumes:
+          - ./app:/app
+    mysql:
+      image: mariadb:latest
+      environment:
+        MYSQL_ROOT_PASSWORD: 'root'
+        MYSQL_USER: 'webrisk'
+        MYSQL_PASSWORD: 'webrisk'
+        MYSQL_DATABASE: 'webrisk'
+      volumes:
+        - mysqldata:/var/lib/mysql
+      ports:
+        - 3308:3306
+volumes:
+  mysqldata: {}

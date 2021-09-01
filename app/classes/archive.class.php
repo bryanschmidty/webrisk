@@ -128,7 +128,7 @@ class Archive extends Game {
 								break;
 
 							default :
-								continue;
+								continue 3;
 								break;
 						}
 						break;

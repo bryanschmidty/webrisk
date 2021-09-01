@@ -25,8 +25,8 @@
 
 // TODO: comments & organize better
 
-require_once INCLUDE_DIR.'func.array.php';
-require_once INCLUDE_DIR.'func.global.php';
+require_once INCLUDE_DIR . 'func.array.php';
+require_once INCLUDE_DIR . 'func.global.php';
 
 define('LOG_TYPE', 0);
 define('LOG_DATA', 1);
@@ -3662,7 +3662,7 @@ if (isset($data[7])) {
 			throw new MyException(__METHOD__.': Capacity data not found for game #'.$this->id);
 		}
 
-		if ($this->capacity <= count($this->_players)) {
+		if ($this->capacity <= count($this->_players ?? [])) {
 			$this->start($this->_host_id);
 		}
 	}
@@ -4500,7 +4500,7 @@ fix_extra_info($game['extra_info']);
 				switch ($game['g_state']) {
 					case 'Finished' :
 						// doesn't matter, the game is over
-						continue;
+						continue 2;
 						break;
 
 					case 'Waiting' :
@@ -4512,7 +4512,7 @@ fix_extra_info($game['extra_info']);
 								AND `game_id` = '{$game['game_id']}'
 						";
 						$Mysql->query($query);
-						continue;
+						continue 2;
 						break;
 
 					case 'Placing' :

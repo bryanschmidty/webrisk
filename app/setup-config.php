@@ -20,11 +20,11 @@ if ( ! file_exists(INCLUDE_DIR.'config.php.sample'))
 $config_file = file(INCLUDE_DIR.'config.php.sample');
 
 // include the sample config file to get the default settings out of it
-require_once INCLUDE_DIR.'config.php.sample';
+require_once INCLUDE_DIR . 'config.php.sample';
 
 // Check if config.php has been created
 if (file_exists(INCLUDE_DIR.'config.php'))
-	die('<p>The file \'config.php\' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href="install.php">installing now</a>.</p>');
+	die(' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href="install.php">installing now</a>.</p>');
 
 $step = isset($_GET['step']) ? $_GET['step'] : 0;
 

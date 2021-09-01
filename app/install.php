@@ -65,7 +65,7 @@ debug('TEST FAILED');
 	}
 
 	if ( ! isset($_POST['create']) || $invalid) {
-		require_once INCLUDE_DIR.'config.php.sample';
+		require_once INCLUDE_DIR . 'config.php.sample';
 
 		$fields = array(
 			'db_hostname' => $GLOBALS['_DEFAULT_DATABASE']['hostname'],

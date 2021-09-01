@@ -1,19 +1,4 @@
-/.sass-cache
-/config
-/old_css
-/testpages
-/.idea
 
-*.epp
-*.err
-*.orig
+.DS_Store
 
-/games/*
-/logs/*
-
-/includes/config.php
-/scripts/ba-debug.js
-
-!/logs/.htaccess
-
-!.gitkeep
+.idea/

@@ -27,8 +27,8 @@
 // with the Risk class returning everything that the Game class might need to write the log
 // or making it available so that the game class can get at it easily.
 
-require_once INCLUDE_DIR.'html.general.php';
-require_once INCLUDE_DIR.'func.array.php';
+require_once INCLUDE_DIR . 'html.general.php';
+require_once INCLUDE_DIR . 'func.array.php';
 
 // set some constant keys for the static arrays below
 define('NAME', 0); // used in both continent and territory arrays
