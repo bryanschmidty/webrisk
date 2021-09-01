@@ -1,5 +1,5 @@
-# WebRisk v0.9.15
-Last Updated: 2017-11-25
+# WebRisk v0.10.1
+Last Updated: 2021-09-01
 
 REQUIREMENTS
 ----------------------------------
@@ -38,3 +38,10 @@ the given `install.sql` file with your own tables and make any adjustments neede
 
 If you find any bugs, have any feature requests or suggestions, or have
 any questions, please contact me at http://iohelix.net/contact, or submit them here on github.
+
+CONVERTING TO LARAVEL
+----------------------------------
+I am following this post on Tighten's website for converting this code into Laravel:
+ - https://tighten.co/blog/converting-a-legacy-app-to-laravel/
+
+If you would like to contribute to this conversion, please follow the steps on this post.  
