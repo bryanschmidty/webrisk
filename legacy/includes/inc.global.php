@@ -11,20 +11,18 @@ date_default_timezone_set('UTC');
 ini_set('register_globals', 0); // you really should have this off anyways
 
 // deal with those lame magic quotes
-if (get_magic_quotes_gpc( )) {
-	function stripslashes_deep($value) {
-		$value = is_array($value)
-			? array_map('stripslashes_deep', $value)
-			: stripslashes($value);
-
-		return $value;
-	}
-
-	$_POST = array_map('stripslashes_deep', $_POST);
-	$_GET = array_map('stripslashes_deep', $_GET);
-	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
-	$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
-}
+//function stripslashes_deep($value) {
+//    $value = is_array($value)
+//        ? array_map('stripslashes_deep', $value)
+//        : stripslashes($value);
+//
+//    return $value;
+//}
+//
+//$_POST = array_map('stripslashes_deep', $_POST);
+//$_GET = array_map('stripslashes_deep', $_GET);
+//$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
+//$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 
 
 /**
@@ -63,7 +61,7 @@ require_once INCLUDE_DIR . 'html.risk.php';
 spl_autoload_register('load_class');
 
 // store the default timezone
-$GLOBALS['_TZ'] = $GLOBALS['_DEFAULT_TIMEZONE'];
+$GLOBALS['_TZ'] = date_default_timezone_get();
 
 
 /**
@@ -173,10 +171,9 @@ if (defined('DEBUG') && DEBUG) {
 		$Mysql->set_error(3);
 	}
 }
-
 // log the player in
 if (( ! defined('LOGIN') || LOGIN) && isset($Mysql)) {
-	$GLOBALS['Player'] = new GamePlayer( );
+    $GLOBALS['Player'] = new GamePlayer( );
 	// this will redirect to login if failed
 	$GLOBALS['Player']->log_in( );
 

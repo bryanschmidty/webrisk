@@ -4631,7 +4631,7 @@ fix_extra_info($game['extra_info']);
 		}
 
 		$winner = 'Unknown';
-		if ('D' === $logs[0]['data']{0}) {
+		if ('D' === $logs[0]['data'][0]) {
 			$winner = (int) trim($logs[0]['data'], 'D ');
 			$winner = "{$winner} - {$players[$winner]['username']}";
 		}

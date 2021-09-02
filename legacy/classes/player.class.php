@@ -301,32 +301,32 @@ class Player
 	 */
 	public function log_out($login_attempt = false, $login_page = false)
 	{
-		call(__METHOD__);
+        call(__METHOD__);
 
-		$this->is_logged = false;
-		$this->_delete_cookie( );
+        $this->is_logged = false;
+        $this->_delete_cookie( );
 
-		// clear player session data, but...
-		// keep the items that we need
-		$kill = array(
+        // clear player session data, but...
+        // keep the items that we need
+        $kill = array(
 			'player_id',
 			'PID',
 			'admin_id',
 		);
 
-		foreach (array_keys($_SESSION) as $key) {
-			if (in_array($key, $kill)) {
-				$_SESSION[$key] = false;
-				$_SESSION[$key] = null;
-				unset($_SESSION[$key]);
-			}
-		}
+        foreach (array_keys($_SESSION) as $key) {
+            if (in_array($key, $kill)) {
+                $_SESSION[$key] = false;
+                $_SESSION[$key] = null;
+                unset($_SESSION[$key]);
+            }
+        }
 
-		if ($login_attempt) {
-			Flash::store('Login FAILED !', false);
-		}
+        if ($login_attempt) {
+            Flash::store('Login FAILED !', false);
+        }
 
-		if ( ! $login_page) {
+        if ( ! $login_page) {
 			if ( ! $this->_DEBUG) {
 				session_write_close( );
 				header('Location: '.self::LOGIN_PAGE.$GLOBALS['_?_DEBUG_QUERY']);

@@ -98,8 +98,8 @@ if ( ! function_exists('call')) {
 		<?php }
 	}
 
-	function dump($var = 'Th&F=xUFucreSp2*ezAhe=ApuPR*$axe', $bypass = false, $show_from = true, $new_window = false, $error = false) { call($var, $bypass, $show_from, $new_window, $error); }
-	function debug($var = 'Th&F=xUFucreSp2*ezAhe=ApuPR*$axe', $bypass = true, $show_from = true, $new_window = false, $error = false) { call($var, $bypass, $show_from, $new_window, $error); }
+//	function dump($var = 'Th&F=xUFucreSp2*ezAhe=ApuPR*$axe', $bypass = false, $show_from = true, $new_window = false, $error = false) { call($var, $bypass, $show_from, $new_window, $error); }
+//	function debug($var = 'Th&F=xUFucreSp2*ezAhe=ApuPR*$axe', $bypass = true, $show_from = true, $new_window = false, $error = false) { call($var, $bypass, $show_from, $new_window, $error); }
 }
 
 
@@ -380,7 +380,7 @@ function ldate($format, $timestamp = null) {
  * @param string $extra_info reference
  */
 function fix_extra_info(& $extra_info) {
-	if ( ! empty($extra_info) && is_string($extra_info) && ('a' === $extra_info{0})) {
+	if ( ! empty($extra_info) && is_string($extra_info) && ('a' === $extra_info[0])) {
 		$extra_info = unserialize($extra_info);
 		$extra_info = json_encode($extra_info);
 	}

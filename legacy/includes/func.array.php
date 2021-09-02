@@ -41,10 +41,15 @@ function array_trim( & $array, $type = null)
 	}
 
 	if ( ! is_null($type)) {
-		array_walk_recursive($array, create_function('&$v', '$v = ('.$type.') trim($v);'));
+		array_walk_recursive($array, function (&$value) use ($type) {
+		    $value = trim($value);
+		    $value = settype( $value, $type);
+        });
 	}
 	else {
-		array_walk_recursive($array, create_function('&$v', '$v = trim($v);'));
+		array_walk_recursive($array, function (&$value) {
+		    $value = trim($value);
+        });
 	}
 
 	return $array; // returns by reference as well
@@ -272,7 +277,9 @@ function explodeFull($separator, $divider, $string, $url = false) { return explo
  */
 function kshuffle( & $array)
 {
-	uasort($array, create_function('$a,$b', 'rand(1, -1);'));
+	uasort($array, function ($a, $b) {
+	    return rand(1, -1);
+    });
 }
 
 
