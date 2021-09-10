@@ -1,47 +1,52 @@
 # WebRisk v0.10.1
-Last Updated: 2021-09-01
+Last Updated: 2021-09-07
 
-REQUIREMENTS
-----------------------------------
-This script requires the [BC Math](https://secure.php.net/manual/en/book.bc.php) extension. 
-If you are using PHP v7+ on linux (Ubuntu), BC Math is not automatically included with PHP, so you'll 
-need to run: `sudo apt-get install php-bcmath`.
+##INSTALLATION
 
-This script requires your MySQL (or equivalent) Server to be able to handle fractional seconds to 
-6 decimal place precision (microseconds). This can be tested by creating a field of type `DATETIME(6)`,
-and if this is successful, your server supports it. MySQL v5.6+ supports fractional seconds.
+----
+Required:
+ - PHP 8.0
+ - Composer 2
 
-INSTALLATION
-----------------------------------
-- Copy the `/includes/config.php.sample` file and rename to `/includes/config.php`.
-- Edit the file to your specifications.
-- Upload all files to your server.
-- Run `install.sql` on your MySQL server (via phpMyAdmin or any other method).
-This will create the tables and insert some basic settings.
-- Register your admin account.
-- Get into your MySQL server, and edit the account you just created in the
-`players` table, and set both `is_admin` and `is_approved` to `1`. 
-- Copy the username of your admin account to the `$GLOBALS['_ROOT_ADMIN']` portion of the `/includes/config.php` file if you haven't already done so.
-- That's it, you're done.
+Installation steps
+ - Run the dependency installation: ```composer install```
+ - Copy `.env.example` to `.env`
+ - Generate app key: `php artisan key:generate`
+ - Start docker: ```vendor/bin/sail up -d```
+ - Initiate DB: ```vendor/bin/sail artisan migrate```
+
+Register your admin account:
+ - navigate to http://localhost
+ - Click on "Register"
+ - Fill out form
+ - Update `player` record in DB to have `is_admin=1`
+ - Add your admin username to the `.env` file as `ROOT_ADMIN`
+ 
+##Laravel Sail
+
+---
+I decided to use [Laravel Sail](https://laravel.com/docs/8.x/sail) since it works well with Laravel and is easy to setup.
+
+If you run multiple docker boxes, you may want to change the ports available to you for the docker boxes. You can update these in the `.env` file. For example: if you wanted to run the web app on port 8001 (http://localhost:8001) and the DB on port 3307, you would configure the `.env` like this:
+
+```env
+# For Sail
+APP_PORT=8001
+FORWARD_DB_PORT=3307
+```
+
+After updating this file, simply restart the docker group
+ - `sail down`
+ - `sail up -d`
 
 
-UPGRADING
-----------------------------------
-I apologize, but there is no upgrade script, you will have to manually compare
-the given `install.sql` file with your own tables and make any adjustments needed.
+##Converting to Laravel
 
-- Copy the `/includes/config.php.sample` file and rename to `/includes/config.php` replacing your original file.
-- Edit the file to your specifications.
-- Delete all your old files (including the config file).
-- Upload all new files to your server.
-- That's it, you're done.
+-----
+The original WebRisk is not built into any specific framework. I am attempting to rebuild this into my favorite framework: Laravel.
 
-If you find any bugs, have any feature requests or suggestions, or have
-any questions, please contact me at http://iohelix.net/contact, or submit them here on github.
-
-CONVERTING TO LARAVEL
-----------------------------------
 I am following this post on Tighten's website for converting this code into Laravel:
  - https://tighten.co/blog/converting-a-legacy-app-to-laravel/
 
-If you would like to contribute to this conversion, please follow the steps on this post.  
+If you would like to contribute to this conversion, please follow the steps on this post. 
+

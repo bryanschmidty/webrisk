@@ -6,24 +6,24 @@
 
 /* Database settings */
 /* ----------------- */
-	$GLOBALS['_DEFAULT_DATABASE']['hostname'] = 'localhost'; // the URI of the MySQL server host
-	$GLOBALS['_DEFAULT_DATABASE']['username'] = 'username_here'; // the MySQL user's name
-	$GLOBALS['_DEFAULT_DATABASE']['password'] = 'password_here'; // the MySQL user's password
-	$GLOBALS['_DEFAULT_DATABASE']['database'] = 'database_here'; // the MySQL database name
+	$GLOBALS['_DEFAULT_DATABASE']['hostname'] = config('database.connections.mysql.host'); // the URI of the MySQL server host
+	$GLOBALS['_DEFAULT_DATABASE']['username'] = config('database.connections.mysql.username'); // the MySQL user's name
+	$GLOBALS['_DEFAULT_DATABASE']['password'] = config('database.connections.mysql.password'); // the MySQL user's password
+	$GLOBALS['_DEFAULT_DATABASE']['database'] = config('database.connections.mysql.database'); // the MySQL database name
 	$GLOBALS['_DEFAULT_DATABASE']['log_path'] = LOG_DIR; // the MySQL log path
 
 
 /* Root settings */
 /* ------------- */
-	$GLOBALS['_ROOT_ADMIN']  = 'yourname'; // Permanent admin username (case-sensitive)
-	$GLOBALS['_ROOT_URI']    = 'http://www.yoursite.com/webrisk/'; // The root URL of the game script (include closing / )
-	$GLOBALS['_USEEMAIL']    = true; // SMTP operations.  Test it before putting it into production
-	$GLOBALS['_DETECTHACKS'] = true; // hack detection. disable this if it causes problems
+	$GLOBALS['_ROOT_ADMIN']  = config('webrisk.root_admin'); // Permanent admin username (case-sensitive)
+	$GLOBALS['_ROOT_URI']    = config('app.url'); // The root URL of the game script (include closing / )
+	$GLOBALS['_USEEMAIL']    = config('webrisk.use_email'); // SMTP operations.  Test it before putting it into production
+	$GLOBALS['_DETECTHACKS'] = config('webrisk.detect_hacks'); // hack detection. disable this if it causes problems
 
 
 /* Date settings */
 /* ------------- */
-	$GLOBALS['_DEFAULT_TIMEZONE'] = 'UTC'; // Your timezone (http://php.net/manual/en/timezones.php)
+	$GLOBALS['_DEFAULT_TIMEZONE'] = config('app.timezone'); // Your timezone (http://php.net/manual/en/timezones.php)
 
 
 /* Table settings */
