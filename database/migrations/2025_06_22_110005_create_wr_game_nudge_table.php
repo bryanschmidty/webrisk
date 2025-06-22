@@ -12,7 +12,7 @@ return new class extends Migration
             $table->unsignedInteger('game_id')->default(0);
             $table->unsignedInteger('player_id')->default(0);
             $table->timestamp('nudged')->useCurrent();
-            $table->unique(['game_id', 'player_id'], 'game_player');
+            $table->unique(['game_id', 'player_id'], 'game_nudge_player');
         });
     }
 

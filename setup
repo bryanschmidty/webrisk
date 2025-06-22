@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -e
+
+CONFIG_JSON=$(cat <<'JSON'
+{
+  "variables": [],
+  "sections": [
+    {
+      "desc": "Update apt packages",
+      "cmds": ["sudo apt-get update -y"]
+    },
+    {
+      "desc": "Install system dependencies",
+      "cmds": ["sudo apt-get install -y php8.3 php8.3-cli php8.3-common php8.3-mbstring php8.3-xml php8.3-sqlite3 php8.3-curl php8.3-mysql sqlite3 composer git unzip"]
+    },
+    {
+      "desc": "Install dependencies",
+      "parallel": true,
+      "cmds": ["npm install", "composer install"]
+    },
+    {
+      "desc": "Initialize Laravel",
+      "cmds": [
+        "cp .env.example .env",
+        "echo 'DB_CONNECTION=sqlite' >> .env",
+        "echo 'DB_DATABASE=./database/database.sqlite' >> .env",
+        "php artisan key:generate",
+        "touch database/database.sqlite"
+      ]
+    },
+    {
+      "desc": "Run migrations",
+      "cmds": ["php artisan migrate --force"]
+    }
+  ]
+}
+JSON
+)
+
+# Dry-run mode: set DRY_RUN=true to preview commands
+DRY_RUN=${DRY_RUN:-false}
+
+for v in $(jq -r '.variables[]' <<<"$CONFIG_JSON"); do
+  : "${!v:?environment variable $v must be set}"
+done
+
+run_section() {
+  desc="$1"; cmds="$2"
+  echo "🟡 $desc" >&2
+  if [ "$DRY_RUN" = "true" ]; then
+    echo "  [DRY RUN] would run: $cmds" >&2
+    return 0
+  fi
+  tmp=$(mktemp)
+  if ! bash -c "$cmds" >"$tmp" 2>&1; then
+    echo "❌ $desc failed. Output:" >&2
+    cat "$tmp" >&2
+    exit 1
+  fi
+  rm -f "$tmp"
+}
+
+run_section_parallel() {
+  desc="$1"; shift
+  echo "🟡 $desc (parallel)" >&2
+  if [ "$DRY_RUN" = "true" ]; then
+    echo "  [DRY RUN] would run in parallel:" >&2
+    for cmd in "$@"; do
+      echo "    $cmd" >&2
+    done
+    return 0
+  fi
+  tmpfiles=(); pids=()
+  for cmd in "$@"; do
+    tmp=$(mktemp)
+    tmpfiles+=("$tmp")
+    bash -c "$cmd" >"$tmp" 2>&1 &
+    pids+=("$!")
+  done
+  for i in "${!pids[@]}"; do
+    if ! wait "${pids[i]}"; then
+      echo "❌ $desc failed on: ${!i}" >&2
+      cat "${tmpfiles[i]}" >&2
+      exit 1
+    fi
+  done
+  rm -f "${tmpfiles[@]}"
+}
+
+jq -c '.sections[]' <<<"$CONFIG_JSON" | while read -r section; do
+  desc=$(jq -r '.desc' <<<"$section")
+  if [ "$(jq -r '.parallel // false' <<<"$section")" = "true" ]; then
+    mapfile -t cmds < <(jq -r '.cmds[]' <<<"$section")
+    run_section_parallel "$desc" "${cmds[@]}"
+  else
+    cmds=$(jq -r '.cmds | join(" && ")' <<<"$section")
+    run_section "$desc" "$cmds"
+  fi
+done
+
+echo "✅ Setup Script Complete" >&2
