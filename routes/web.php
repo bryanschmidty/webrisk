@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PreferencesController;
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\StatsController;
 
 Route::get('/', [GameController::class, 'index']);
 
@@ -54,3 +55,5 @@ Route::controller(PreferencesController::class)->group(function () {
     Route::get('/prefs', 'edit');
     Route::post('/prefs', 'update');
 });
+
+Route::get('/stats', [StatsController::class, 'index']);
