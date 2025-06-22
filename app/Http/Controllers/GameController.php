@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\GamePlayer;
+use App\Models\GameNudge;
+use App\Models\Player;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -16,7 +20,9 @@ class GameController extends Controller
 
     public function show(Game $game)
     {
-        return view('games.show', compact('game'));
+        $hours = (int) (Setting::where('setting', 'nudge_flood_control')->value('value') ?? 24);
+        $canNudge = count($this->nudgablePlayers($game, $hours)) > 0;
+        return view('games.show', compact('game', 'canNudge'));
     }
 
     public function create()
@@ -112,5 +118,50 @@ class GameController extends Controller
         }
 
         return view('games.join', compact('game'));
+    }
+
+    public function nudge(Request $request, Game $game)
+    {
+        $hours = (int) (Setting::where('setting', 'nudge_flood_control')->value('value') ?? 24);
+        if ($hours === -1) {
+            return redirect('/games/' . $game->game_id);
+        }
+
+        $targets = $this->nudgablePlayers($game, $hours);
+        foreach ($targets as $id) {
+            GameNudge::create([
+                'game_id' => $game->game_id,
+                'player_id' => $id,
+                'nudged' => now(),
+            ]);
+            $player = Player::find($id);
+            if ($player) {
+                Mail::raw('Please take your turn in ' . $game->name, function ($message) use ($player, $game) {
+                    $message->to($player->email)->subject('Game Nudge: ' . $game->name);
+                });
+            }
+        }
+
+        return redirect('/games/' . $game->game_id);
+    }
+
+    protected function nudgablePlayers(Game $game, int $hours): array
+    {
+        $players = GamePlayer::where('game_id', $game->game_id)
+            ->whereNotIn('state', ['Waiting', 'Resigned', 'Dead'])
+            ->get();
+        $ids = [];
+        foreach ($players as $gp) {
+            if ($gp->move_date->lte(now()->subHours($hours))) {
+                $exists = GameNudge::where('game_id', $game->game_id)
+                    ->where('player_id', $gp->player_id)
+                    ->where('nudged', '>=', now()->subHours($hours))
+                    ->exists();
+                if (!$exists) {
+                    $ids[] = $gp->player_id;
+                }
+            }
+        }
+        return $ids;
     }
 }
