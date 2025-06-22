@@ -23,3 +23,13 @@ A fresh Laravel application now lives in the project root.
    ```
 
 This will set up an empty game database ready for development.
+
+## Running Tests
+
+Execute the full PHPUnit test suite using Artisan:
+
+```
+php artisan test
+```
+
+This command runs the unit and feature tests using an in-memory SQLite database.
