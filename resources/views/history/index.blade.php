@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>History for {{ $game->name }}</h1>
-<ul>
+<h1 class="text-2xl font-semibold mb-4">History for {{ $game->name }}</h1>
+<ul class="space-y-1">
 @foreach($logs as $log)
-    <li>{{ $log->create_date }} - {{ $log->data }}</li>
+    <li class="bg-white p-2 rounded shadow">{{ $log->create_date }} - {{ $log->data }}</li>
 @endforeach
 </ul>
 @endsection
