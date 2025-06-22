@@ -8,9 +8,12 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PreferencesController;
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\StatsController;
 
 Route::get('/', [GameController::class, 'index']);
+
+Route::get('/archive', [ArchiveController::class, 'index']);
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
