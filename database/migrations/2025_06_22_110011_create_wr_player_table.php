@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('wins')->default(0);
             $table->unsignedSmallInteger('kills')->default(0);
             $table->unsignedSmallInteger('losses')->default(0);
-            $table->timestamp('last_online')->default('0000-00-00 00:00:00')->useCurrentOnUpdate();
+            $table->timestamp('last_online')->useCurrent()->useCurrentOnUpdate();
             $table->unique('player_id', 'id');
         });
     }

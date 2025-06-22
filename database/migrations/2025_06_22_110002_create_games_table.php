@@ -22,8 +22,8 @@ return new class extends Migration
             $table->text('extra_info')->nullable();
             $table->text('game_settings')->nullable();
             $table->boolean('paused')->default(false);
-            $table->dateTime('create_date')->default('0000-00-00 00:00:00');
-            $table->timestamp('modify_date')->useCurrentOnUpdate()->default('0000-00-00 00:00:00');
+            $table->dateTime('create_date')->useCurrent();
+            $table->timestamp('modify_date')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
