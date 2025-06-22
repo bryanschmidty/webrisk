@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrGameNudge extends Model
+class GameNudge extends Model
 {
     use HasFactory;
 
-    protected $table = 'wr_game_nudge';
+    protected $table = 'game_nudges';
 
     public $timestamps = false;
 
@@ -29,7 +29,7 @@ class WrGameNudge extends Model
 
     public function game()
     {
-        return $this->belongsTo(WrGame::class, 'game_id');
+        return $this->belongsTo(Game::class, 'game_id');
     }
 
     public function player()

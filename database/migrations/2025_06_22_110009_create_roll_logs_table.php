@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('wr_roll_log', function (Blueprint $table) {
+        Schema::create('roll_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedTinyInteger('attack_1')->default(0);
             $table->unsignedTinyInteger('attack_2')->nullable();
@@ -20,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('wr_roll_log');
+        Schema::dropIfExists('roll_logs');
     }
 };

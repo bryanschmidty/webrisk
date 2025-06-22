@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrWrPlayer extends Model
+class PlayerSettings extends Model
 {
     use HasFactory;
 
-    protected $table = 'wr_wr_player';
+    protected $table = 'wr_player';
 
     protected $primaryKey = 'player_id';
 

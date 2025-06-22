@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('wr_wr_player', function (Blueprint $table) {
+        Schema::create('wr_player', function (Blueprint $table) {
             $table->unsignedInteger('player_id')->default(0);
             $table->text('game_settings')->nullable();
             $table->unsignedTinyInteger('is_admin')->default(0);
@@ -26,6 +26,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('wr_wr_player');
+        Schema::dropIfExists('wr_player');
     }
 };

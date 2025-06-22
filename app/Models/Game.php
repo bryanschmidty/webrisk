@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrGame extends Model
+class Game extends Model
 {
     use HasFactory;
 
-    protected $table = 'wr_game';
+    protected $table = 'games';
 
     protected $primaryKey = 'game_id';
 
@@ -42,11 +42,11 @@ class WrGame extends Model
 
     public function players()
     {
-        return $this->hasMany(WrGamePlayer::class, 'game_id');
+        return $this->hasMany(GamePlayer::class, 'game_id');
     }
 
     public function chat()
     {
-        return $this->hasMany(WrChat::class, 'game_id');
+        return $this->hasMany(Chat::class, 'game_id');
     }
 }

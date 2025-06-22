@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Player;
-use App\Models\WrGame;
+use App\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,7 +14,7 @@ class GameRoutesTest extends TestCase
     public function test_games_index_returns_successful_response(): void
     {
         $host = Player::factory()->create();
-        WrGame::factory()->create(['host_id' => $host->player_id, 'name' => 'Test Game']);
+        Game::factory()->create(['host_id' => $host->player_id, 'name' => 'Test Game']);
         $response = $this->get('/games');
         $response->assertStatus(200);
     }
@@ -22,7 +22,7 @@ class GameRoutesTest extends TestCase
     public function test_game_show_returns_successful_response(): void
     {
         $host = Player::factory()->create();
-        $game = WrGame::factory()->create(['host_id' => $host->player_id, 'name' => 'Show Game']);
+        $game = Game::factory()->create(['host_id' => $host->player_id, 'name' => 'Show Game']);
         $response = $this->get('/games/'.$game->game_id);
         $response->assertStatus(200);
     }

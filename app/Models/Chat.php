@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrChat extends Model
+class Chat extends Model
 {
     use HasFactory;
 
-    protected $table = 'wr_chat';
+    protected $table = 'chats';
 
     protected $primaryKey = 'chat_id';
 
@@ -28,7 +28,7 @@ class WrChat extends Model
 
     public function game()
     {
-        return $this->belongsTo(WrGame::class, 'game_id');
+        return $this->belongsTo(Game::class, 'game_id');
     }
 
     public function fromPlayer()

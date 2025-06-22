@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('wr_message_glue', function (Blueprint $table) {
+        Schema::create('message_glues', function (Blueprint $table) {
             $table->increments('message_glue_id');
             $table->unsignedInteger('message_id')->default(0);
             $table->unsignedInteger('from_id')->default(0);
@@ -28,6 +28,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('wr_message_glue');
+        Schema::dropIfExists('message_glues');
     }
 };
