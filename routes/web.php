@@ -9,8 +9,13 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PreferencesController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\StatsController;
 
 Route::get('/', [GameController::class, 'index']);
+
+Route::get('/archive', [ArchiveController::class, 'index']);
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
@@ -61,3 +66,7 @@ Route::middleware('admin')->prefix('admin')->controller(AdminController::class)-
     Route::get('/settings', 'settingsForm');
     Route::post('/settings', 'updateSettings');
 });
+
+Route::get('/games/{game}/history', [HistoryController::class, 'index']);
+Route::get('/review/{file}', [HistoryController::class, 'review']);
+Route::get('/stats', [StatsController::class, 'index']);
