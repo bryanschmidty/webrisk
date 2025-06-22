@@ -49,4 +49,9 @@ class Game extends Model
     {
         return $this->hasMany(Chat::class, 'game_id');
     }
+
+    public static function hashPassword(string $password): string
+    {
+        return md5($password.'s41Ty!S7uFF');
+    }
 }
