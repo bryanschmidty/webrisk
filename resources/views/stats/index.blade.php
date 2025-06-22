@@ -2,6 +2,7 @@
 
 @section('content')
 <h1 class="text-2xl font-semibold mb-4">Player Stats</h1>
+<div class="overflow-x-auto">
 <table class="min-w-full bg-white divide-y divide-gray-300 shadow rounded">
     <thead class="bg-gray-50">
     <tr>
@@ -34,8 +35,10 @@
     @endforeach
     </tbody>
 </table>
+</div>
 
 <h2 class="text-xl font-semibold mt-8 mb-2">Dice Percentages</h2>
+<div class="overflow-x-auto">
 <table class="min-w-full bg-white divide-y divide-gray-300 shadow rounded">
     <thead class="bg-gray-50">
     <tr>
@@ -56,8 +59,10 @@
     @endforeach
     </tbody>
 </table>
+</div>
 
 <h2 class="text-xl font-semibold mt-8 mb-2">Theoretical Dice Percentages</h2>
+<div class="overflow-x-auto">
 <table class="min-w-full bg-white divide-y divide-gray-300 shadow rounded">
     <thead class="bg-gray-50">
     <tr>
@@ -78,8 +83,10 @@
     @endforeach
     </tbody>
 </table>
+</div>
 
 <h2 class="text-xl font-semibold mt-8 mb-2">Fight Counts</h2>
+<div class="overflow-x-auto">
 <table class="min-w-full bg-white divide-y divide-gray-300 shadow rounded">
     <thead class="bg-gray-50">
     <tr>
@@ -102,4 +109,5 @@
     </tr>
     </tbody>
 </table>
+</div>
 @endsection

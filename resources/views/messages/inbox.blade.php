@@ -3,7 +3,8 @@
 @section('content')
 <h1 class="text-2xl font-semibold mb-4">Inbox</h1>
 <a href="/messages/create" class="text-indigo-600 hover:underline">Compose</a>
-<table class="mt-4 min-w-full bg-white divide-y divide-gray-300 shadow rounded">
+<div class="overflow-x-auto mt-4">
+<table class="min-w-full bg-white divide-y divide-gray-300 shadow rounded">
     <thead class="bg-gray-50">
         <tr>
             <th class="px-4 py-2 text-left">From</th>
@@ -29,5 +30,6 @@
         @endforeach
     </tbody>
 </table>
+</div>
 @include('messages.outbox', ['outbox' => $outbox])
 @endsection

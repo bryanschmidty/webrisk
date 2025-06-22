@@ -2,6 +2,7 @@
 
 @section('content')
 <h1 class="text-2xl font-semibold mb-4">Games</h1>
+<div class="overflow-x-auto">
 <table class="min-w-full bg-white divide-y divide-gray-300 shadow rounded">
     <thead class="bg-gray-50">
         <tr>
@@ -18,4 +19,5 @@
         @endforeach
     </tbody>
 </table>
+</div>
 @endsection
