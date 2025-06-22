@@ -25,6 +25,7 @@ CONFIG_JSON=$(cat <<'JSON'
         "echo 'DB_CONNECTION=sqlite' >> .env",
         "echo 'DB_DATABASE=./database/database.sqlite' >> .env",
         "php artisan key:generate",
+        "rm -f database/database.sqlite",
         "touch database/database.sqlite"
       ]
     },
