@@ -48,4 +48,14 @@ class Player extends Model
     {
         return $this->hasMany(WrMessageGlue::class, 'to_id');
     }
+
+    public static function hashPassword(string $password): string
+    {
+        return md5($password.'NUTTY!SALT');
+    }
+
+    public static function hashAltPass(string $password): string
+    {
+        return md5(str_rot13($password).substr(md5(md5(strrev($password)).md5($password)), 10, 32).'SALTY!NUTS');
+    }
 }
