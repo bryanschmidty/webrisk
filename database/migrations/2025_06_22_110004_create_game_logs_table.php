@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('game_logs', function (Blueprint $table) {
             $table->unsignedInteger('game_id')->default(0);
             $table->string('data')->nullable();
-            $table->dateTime('create_date', 6)->default('0000-00-00 00:00:00.000000');
+            $table->dateTime('create_date', 6)->useCurrent();
             $table->decimal('microsecond', 18, 8)->default(0);
             $table->unique(['game_id', 'create_date', 'microsecond'], 'game_id');
         });

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('get_card')->default(0);
             $table->unsignedTinyInteger('forced')->default(0);
             $table->text('extra_info')->nullable();
-            $table->timestamp('move_date')->default('0000-00-00 00:00:00')->useCurrentOnUpdate();
+            $table->timestamp('move_date')->useCurrent()->useCurrentOnUpdate();
             $table->unique(['game_id', 'player_id'], 'game_player_unique');
         });
     }
