@@ -8,6 +8,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PreferencesController;
+use App\Http\Controllers\HistoryController;
 
 Route::get('/', [GameController::class, 'index']);
 
@@ -51,3 +52,6 @@ Route::controller(PreferencesController::class)->group(function () {
     Route::get('/prefs', 'edit');
     Route::post('/prefs', 'update');
 });
+
+Route::get('/games/{game}/history', [HistoryController::class, 'index']);
+Route::get('/review/{file}', [HistoryController::class, 'review']);
