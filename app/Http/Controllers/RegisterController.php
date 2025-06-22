@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Player;
 use Illuminate\Support\Str;
+use App\Models\PlayerSettings;
 
 class RegisterController extends Controller
 {
@@ -28,6 +29,10 @@ class RegisterController extends Controller
             'alt_pass' => Player::hashAltPass($data['password']),
             'ident' => Str::random(32),
             'is_approved' => 1,
+        ]);
+
+        PlayerSettings::create([
+            'player_id' => $player->player_id,
         ]);
 
         $request->session()->put('player_id', $player->player_id);
