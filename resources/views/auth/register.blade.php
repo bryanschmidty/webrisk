@@ -1,25 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Register</h1>
-<form method="post" action="/register">
+<h1 class="text-2xl font-semibold mb-4">Register</h1>
+<form method="post" action="/register" class="space-y-4 bg-white p-6 rounded shadow max-w-md mx-auto">
     @csrf
-    <div>
-        <label>Username</label>
-        <input type="text" name="username" value="{{ old('username') }}">
+    <div class="flex flex-col">
+        <label class="mb-1">Username</label>
+        <input class="border rounded p-2" type="text" name="username" value="{{ old('username') }}">
     </div>
-    <div>
-        <label>Email</label>
-        <input type="email" name="email" value="{{ old('email') }}">
+    <div class="flex flex-col">
+        <label class="mb-1">Email</label>
+        <input class="border rounded p-2" type="email" name="email" value="{{ old('email') }}">
     </div>
-    <div>
-        <label>Password</label>
-        <input type="password" name="password">
+    <div class="flex flex-col">
+        <label class="mb-1">Password</label>
+        <input class="border rounded p-2" type="password" name="password">
     </div>
-    <div>
-        <label>Confirm Password</label>
-        <input type="password" name="password_confirmation">
+    <div class="flex flex-col">
+        <label class="mb-1">Confirm Password</label>
+        <input class="border rounded p-2" type="password" name="password_confirmation">
     </div>
-    <button type="submit">Register</button>
+    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Register</button>
 </form>
 @endsection
