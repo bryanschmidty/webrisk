@@ -11,7 +11,7 @@ CONFIG_JSON=$(cat <<'JSON'
     },
     {
       "desc": "Install system dependencies",
-      "cmds": ["sudo apt-get install -y php8.3 php8.3-cli php8.3-common php8.3-mbstring php8.3-xml php8.3-sqlite3 php8.3-curl php8.3-mysql composer git unzip"]
+      "cmds": ["sudo apt-get install -y php8.3 php8.3-cli php8.3-common php8.3-mbstring php8.3-xml php8.3-sqlite3 php8.3-curl php8.3-mysql sqlite3 composer git unzip"]
     },
     {
       "desc": "Install Node packages",
@@ -23,7 +23,17 @@ CONFIG_JSON=$(cat <<'JSON'
     },
     {
       "desc": "Initialize Laravel",
-      "cmds": ["cp .env.example .env", "php artisan key:generate", "php artisan migrate --force"]
+      "cmds": [
+        "cp .env.example .env",
+        "echo 'DB_CONNECTION=sqlite' >> .env",
+        "echo 'DB_DATABASE=./database/database.sqlite' >> .env",
+        "php artisan key:generate",
+        "touch database/database.sqlite"
+      ]
+    },
+    {
+      "desc": "Run migrations",
+      "cmds": ["php artisan migrate --force"]
     }
   ]
 }
