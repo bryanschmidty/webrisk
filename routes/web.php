@@ -8,6 +8,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PreferencesController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', [GameController::class, 'index']);
 
@@ -50,4 +51,13 @@ Route::controller(ProfileController::class)->group(function () {
 Route::controller(PreferencesController::class)->group(function () {
     Route::get('/prefs', 'edit');
     Route::post('/prefs', 'update');
+});
+
+Route::middleware('admin')->prefix('admin')->controller(AdminController::class)->group(function () {
+    Route::get('/', 'dashboard');
+    Route::post('/players/{player}/approve', 'approvePlayer');
+    Route::post('/games/{game}/pause', 'pauseGame');
+    Route::post('/games/{game}/unpause', 'unpauseGame');
+    Route::get('/settings', 'settingsForm');
+    Route::post('/settings', 'updateSettings');
 });

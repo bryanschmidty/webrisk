@@ -8,6 +8,10 @@
     <nav>
         @if(session('player_id'))
             <a href="/games">Games</a> |
+            @php($player = \App\Models\Player::find(session('player_id')))
+            @if($player?->is_admin)
+                <a href="/admin">Admin</a> |
+            @endif
             <a href="/logout">Logout</a>
         @else
             <a href="/login">Login</a> |
