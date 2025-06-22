@@ -34,19 +34,19 @@ class Player extends Model
         'is_approved' => 'boolean',
     ];
 
-    public function profile()
+    public function settings()
     {
-        return $this->hasOne(WrWrPlayer::class, 'player_id');
+        return $this->hasOne(PlayerSettings::class, 'player_id');
     }
 
     public function games()
     {
-        return $this->belongsToMany(WrGame::class, 'wr_game_player', 'player_id', 'game_id');
+        return $this->belongsToMany(Game::class, 'game_players', 'player_id', 'game_id');
     }
 
     public function messages()
     {
-        return $this->hasMany(WrMessageGlue::class, 'to_id');
+        return $this->hasMany(MessageGlue::class, 'to_id');
     }
 
     public static function hashPassword(string $password): string

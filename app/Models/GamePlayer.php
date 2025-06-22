@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrGameLand extends Model
+class GamePlayer extends Model
 {
     use HasFactory;
 
-    protected $table = 'wr_game_land';
+    protected $table = 'game_players';
 
     public $timestamps = false;
 
@@ -19,14 +19,25 @@ class WrGameLand extends Model
 
     protected $fillable = [
         'game_id',
-        'land_id',
         'player_id',
+        'order_num',
+        'color',
+        'cards',
         'armies',
+        'state',
+        'get_card',
+        'forced',
+        'extra_info',
+        'move_date',
+    ];
+
+    protected $casts = [
+        'move_date' => 'datetime',
     ];
 
     public function game()
     {
-        return $this->belongsTo(WrGame::class, 'game_id');
+        return $this->belongsTo(Game::class, 'game_id');
     }
 
     public function player()

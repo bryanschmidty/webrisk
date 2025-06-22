@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\WrGame;
+use App\Models\Game;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class WrGameFactory extends Factory
+class GameFactory extends Factory
 {
-    protected $model = WrGame::class;
+    protected $model = Game::class;
 
     public function definition(): array
     {

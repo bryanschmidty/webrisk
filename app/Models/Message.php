@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrMessage extends Model
+class Message extends Model
 {
     use HasFactory;
 
-    protected $table = 'wr_message';
+    protected $table = 'messages';
 
     protected $primaryKey = 'message_id';
 
@@ -22,6 +22,6 @@ class WrMessage extends Model
 
     public function glues()
     {
-        return $this->hasMany(WrMessageGlue::class, 'message_id');
+        return $this->hasMany(MessageGlue::class, 'message_id');
     }
 }

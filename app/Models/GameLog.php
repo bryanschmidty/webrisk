@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WrGameLog extends Model
+class GameLog extends Model
 {
     use HasFactory;
 
-    protected $table = 'wr_game_log';
+    protected $table = 'game_logs';
 
     public $timestamps = false;
 
@@ -30,6 +30,6 @@ class WrGameLog extends Model
 
     public function game()
     {
-        return $this->belongsTo(WrGame::class, 'game_id');
+        return $this->belongsTo(Game::class, 'game_id');
     }
 }

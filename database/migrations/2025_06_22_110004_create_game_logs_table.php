@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('wr_game_log', function (Blueprint $table) {
+        Schema::create('game_logs', function (Blueprint $table) {
             $table->unsignedInteger('game_id')->default(0);
             $table->string('data')->nullable();
             $table->dateTime('create_date', 6)->default('0000-00-00 00:00:00.000000');
@@ -19,6 +19,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('wr_game_log');
+        Schema::dropIfExists('game_logs');
     }
 };

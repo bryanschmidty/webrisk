@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('wr_message', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->increments('message_id');
             $table->string('subject');
             $table->text('message');
@@ -18,6 +18,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('wr_message');
+        Schema::dropIfExists('messages');
     }
 };
