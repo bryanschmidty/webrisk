@@ -7,6 +7,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PreferencesController;
 
 Route::get('/', [GameController::class, 'index']);
 
@@ -44,4 +45,9 @@ Route::controller(MessageController::class)->prefix('messages')->group(function 
 Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile', 'edit');
     Route::post('/profile', 'update');
+});
+
+Route::controller(PreferencesController::class)->group(function () {
+    Route::get('/prefs', 'edit');
+    Route::post('/prefs', 'update');
 });
