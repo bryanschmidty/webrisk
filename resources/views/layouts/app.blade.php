@@ -12,14 +12,14 @@
 </head>
 <body class="bg-slate-100 text-gray-900 min-h-screen flex flex-col">
     <nav class="bg-indigo-700 text-white">
-        <div class="container mx-auto max-w-screen-lg flex justify-between items-center p-4">
+        <div class="container mx-auto max-w-screen-lg flex flex-wrap items-center justify-between p-4">
             <a href="/" class="font-bold text-xl">WebRisk</a>
             <button id="nav-toggle" class="sm:hidden" aria-controls="nav-menu" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <ul id="nav-menu" class="hidden sm:flex gap-4 items-center">
+            <ul id="nav-menu" class="hidden w-full flex-col gap-2 mt-2 list-none sm:flex sm:w-auto sm:flex-row sm:gap-4 sm:mt-0 items-center">
                 @if(session('player_id'))
                     <li><a href="/games" class="hover:underline">Games</a></li>
                     <li><a href="/games/create" class="hover:underline">Create Game</a></li>
@@ -44,9 +44,12 @@
         @yield('content')
     </main>
     <script>
-        document.getElementById('nav-toggle').addEventListener('click', () => {
+        const toggle = document.getElementById('nav-toggle');
+        toggle.addEventListener('click', () => {
             const menu = document.getElementById('nav-menu');
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
             menu.classList.toggle('hidden');
+            toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         });
     </script>
 </body>
