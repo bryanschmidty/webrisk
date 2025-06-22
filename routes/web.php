@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 
@@ -25,6 +26,12 @@ Route::get('/games/create', [GameController::class, 'create']);
 Route::post('/games', [GameController::class, 'store']);
 Route::match(['get','post'], '/games/{game}/join', [GameController::class, 'join']);
 Route::get('/games/{game}', [GameController::class, 'show']);
+
+Route::controller(ChatController::class)->prefix('chat')->group(function () {
+    Route::get('/{game?}', 'index');
+    Route::get('/{game?}/messages', 'fetch');
+    Route::post('/{game?}', 'store');
+});
 
 Route::controller(MessageController::class)->prefix('messages')->group(function () {
     Route::get('/', 'index');
