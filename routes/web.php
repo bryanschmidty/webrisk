@@ -1,73 +1,77 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PreferencesController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\ArchiveController;
-use App\Http\Controllers\StatsController;
+use App\Http\Controllers\{
+    AdminController,
+    ArchiveController,
+    AuthController,
+    ChatController,
+    GameController,
+    HistoryController,
+    MessageController,
+    PreferencesController,
+    ProfileController,
+    RegisterController,
+    StatsController,
+};
 
-Route::get('/', [GameController::class, 'index']);
+Route::get('/', [GameController::class, 'index'])->name('home');
 
-Route::get('/archive', [ArchiveController::class, 'index']);
+Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
-    Route::post('/login', 'login');
-    Route::get('/logout', 'logout');
+    Route::post('/login', 'login')->name('login.perform');
+    Route::get('/logout', 'logout')->name('logout');
 });
 
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'showRegistrationForm');
-    Route::post('/register', 'register');
+    Route::get('/register', 'showRegistrationForm')->name('register');
+    Route::post('/register', 'register')->name('register.perform');
 });
 
-Route::get('/games', [GameController::class, 'index']);
-Route::get('/games/create', [GameController::class, 'create']);
-Route::post('/games', [GameController::class, 'store']);
-Route::match(['get','post'], '/games/{game}/join', [GameController::class, 'join']);
-Route::get('/games/{game}', [GameController::class, 'show']);
-Route::post('/games/{game}/nudge', [GameController::class, 'nudge']);
-
-Route::controller(ChatController::class)->prefix('chat')->group(function () {
-    Route::get('/{game?}', 'index');
-    Route::get('/{game?}/messages', 'fetch');
-    Route::post('/{game?}', 'store');
+Route::prefix('games')->group(function () {
+    Route::get('/', [GameController::class, 'index'])->name('games.index');
+    Route::get('create', [GameController::class, 'create'])->name('games.create');
+    Route::post('/', [GameController::class, 'store'])->name('games.store');
+    Route::match(['get', 'post'], '{game}/join', [GameController::class, 'join'])->name('games.join');
+    Route::get('{game}', [GameController::class, 'show'])->name('games.show');
+    Route::post('{game}/nudge', [GameController::class, 'nudge'])->name('games.nudge');
+    Route::get('{game}/history', [HistoryController::class, 'index'])->name('history.index');
 });
 
-Route::controller(MessageController::class)->prefix('messages')->group(function () {
-    Route::get('/', 'index');
-    Route::get('/create', 'create');
-    Route::post('/', 'store');
-    Route::get('/{messageGlue}', 'show');
-    Route::delete('/{messageGlue}', 'destroy');
+Route::prefix('chat')->controller(ChatController::class)->group(function () {
+    Route::get('/{game?}', 'index')->name('chat.index');
+    Route::get('/{game?}/messages', 'fetch')->name('chat.fetch');
+    Route::post('/{game?}', 'store')->name('chat.store');
+});
+
+Route::prefix('messages')->controller(MessageController::class)->group(function () {
+    Route::get('/', 'index')->name('messages.index');
+    Route::get('/create', 'create')->name('messages.create');
+    Route::post('/', 'store')->name('messages.store');
+    Route::get('/{messageGlue}', 'show')->name('messages.show');
+    Route::delete('/{messageGlue}', 'destroy')->name('messages.destroy');
 });
 
 Route::controller(ProfileController::class)->group(function () {
-    Route::get('/profile', 'edit');
-    Route::post('/profile', 'update');
+    Route::get('/profile', 'edit')->name('profile.edit');
+    Route::post('/profile', 'update')->name('profile.update');
 });
 
 Route::controller(PreferencesController::class)->group(function () {
-    Route::get('/prefs', 'edit');
-    Route::post('/prefs', 'update');
+    Route::get('/prefs', 'edit')->name('prefs.edit');
+    Route::post('/prefs', 'update')->name('prefs.update');
 });
 
 Route::middleware('admin')->prefix('admin')->controller(AdminController::class)->group(function () {
-    Route::get('/', 'dashboard');
-    Route::post('/players/{player}/approve', 'approvePlayer');
-    Route::post('/games/{game}/pause', 'pauseGame');
-    Route::post('/games/{game}/unpause', 'unpauseGame');
-    Route::get('/settings', 'settingsForm');
-    Route::post('/settings', 'updateSettings');
+    Route::get('/', 'dashboard')->name('admin.dashboard');
+    Route::post('/players/{player}/approve', 'approvePlayer')->name('admin.players.approve');
+    Route::post('/games/{game}/pause', 'pauseGame')->name('admin.games.pause');
+    Route::post('/games/{game}/unpause', 'unpauseGame')->name('admin.games.unpause');
+    Route::get('/settings', 'settingsForm')->name('admin.settings.form');
+    Route::post('/settings', 'updateSettings')->name('admin.settings.update');
 });
 
-Route::get('/games/{game}/history', [HistoryController::class, 'index']);
-Route::get('/review/{file}', [HistoryController::class, 'review']);
-Route::get('/stats', [StatsController::class, 'index']);
+Route::get('/review/{file}', [HistoryController::class, 'review'])->name('review.show');
+Route::get('/stats', [StatsController::class, 'index'])->name('stats.index');
