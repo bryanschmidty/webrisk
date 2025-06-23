@@ -16,7 +16,8 @@
 </form>
 @endif
 
-<div id="board">
+<div class="flex flex-col lg:flex-row gap-4">
+<div id="board" class="relative board-background border border-gray-300 w-full max-w-[800px] h-[449px] mx-auto lg:mx-0">
     <div id="pathmarkers">
 @for($i = 1; $i <= 44; $i++)
         <div id="pm{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"></div>
@@ -34,7 +35,7 @@
         @endif
     </div>
 </div>
-<div id="controls">
+<div id="controls" class="lg:ml-4 lg:w-64 border border-gray-300 p-2 bg-white mt-4 lg:mt-0">
     {!! $game->draw_action() !!}
     <hr />
     <div id="chat-panel" class="mt-4">
@@ -47,6 +48,7 @@
             <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Send</button>
         </form>
     </div>
+</div>
 </div>
 <div id="history" class="mt-4">
     <a href="{{ route('history.index', $game) }}" class="text-indigo-600 hover:underline ajax-modal">Click for History</a>
