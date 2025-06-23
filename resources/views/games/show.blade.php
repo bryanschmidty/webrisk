@@ -125,4 +125,5 @@ document.addEventListener('keydown', e => {
     }
 });
 </script>
+{!! game_map() !!}
 @endsection
