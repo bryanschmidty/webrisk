@@ -51,7 +51,6 @@ class Game extends Model
         return $this->hasMany(Chat::class, 'game_id');
     }
 
-
     public function draw_players(): string
     {
         $players = $this->players()->with('player')->orderBy('order_num')->get();
