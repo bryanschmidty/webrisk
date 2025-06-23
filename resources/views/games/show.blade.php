@@ -5,7 +5,9 @@
     <li><a href="{{ route('games.index') }}" class="text-indigo-600 hover:underline">Main Page</a></li>
     <li><a href="{{ route('games.show', $game->game_id) }}" class="text-indigo-600 hover:underline">Reload Game Board</a></li>
 </ul>
-<h1 class="text-2xl font-semibold mb-4">{{ $game->name }}</h1>
+<h1 class="text-2xl font-semibold mb-4">{{ $game->name }}
+    <a href="#" id="game-info-link" class="text-sm ml-2 text-indigo-600 hover:underline">Game Info</a>
+</h1>
 <p class="mb-4">State: {{ $game->state }}</p>
 @if(isset($canNudge) && $canNudge)
 <form method="post" action="/games/{{ $game->game_id }}/nudge" class="mb-4">
@@ -49,6 +51,7 @@
 <div id="history" class="mt-4">
     <a href="{{ route('history.index', $game) }}" class="text-indigo-600 hover:underline ajax-modal">Click for History</a>
 </div>
+{!! game_info($game) !!}
 <div id="ajax-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white p-4 rounded w-11/12 max-w-2xl max-h-[80vh] overflow-y-auto">
         <button id="ajax-modal-close" type="button" class="ml-auto mb-2 text-gray-500">Close</button>
@@ -102,6 +105,13 @@ document.querySelectorAll('.ajax-modal').forEach(link => {
                 modal.classList.remove('hidden');
             });
     });
+});
+const gameInfo = document.getElementById('game_info');
+gameInfo.classList.add('hidden');
+document.getElementById('game-info-link').addEventListener('click', e => {
+    e.preventDefault();
+    modalContent.innerHTML = gameInfo.innerHTML;
+    modal.classList.remove('hidden');
 });
 document.getElementById('ajax-modal-close').addEventListener('click', closeModal);
 modal.addEventListener('click', e => {
