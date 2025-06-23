@@ -50,6 +50,31 @@ class Game extends Model
         return $this->hasMany(Chat::class, 'game_id');
     }
 
+    public function get_trade_value(): int
+    {
+        return 0;
+    }
+
+    public function draw_players(): string
+    {
+        $players = $this->players()->with('player')->orderBy('order_num')->get();
+        $html = '<div id="players"><ul>';
+        foreach ($players as $gp) {
+            $class = substr($gp->color, 0, 3);
+            if ($gp->player_id == session('player_id')) {
+                $class .= ' me';
+            }
+            if ($gp->player_id == $this->host_id) {
+                $class .= ' host';
+            }
+            $class .= ' '.strtolower($gp->state);
+            $numCards = $gp->cards ? count(array_filter(explode(' ', $gp->cards))) : 0;
+            $username = $gp->player->username ?? '';
+            $html .= '<li id="p_'.$gp->player_id.'" class="'.$class.'" title="'.$gp->state.'"><span class="cards">'.$numCards.'</span>'.$username.'</li>';
+        }
+        return $html.'</ul></div>';
+    }
+
     public static function hashPassword(string $password): string
     {
         return md5($password.'s41Ty!S7uFF');
