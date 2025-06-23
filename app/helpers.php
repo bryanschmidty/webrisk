@@ -29,3 +29,10 @@ if (!function_exists('game_info')) {
     }
 }
 
+if (!function_exists('game_map')) {
+    function game_map(): string
+    {
+        return view('games.partials.game_map')->render();
+    }
+}
+
