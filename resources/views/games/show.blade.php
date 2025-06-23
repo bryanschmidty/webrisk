@@ -46,6 +46,15 @@
         </form>
     </div>
 </div>
+<div id="history" class="mt-4">
+    <a href="{{ route('history.index', $game) }}" class="text-indigo-600 hover:underline ajax-modal">Click for History</a>
+</div>
+<div id="ajax-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-4 rounded w-11/12 max-w-2xl max-h-[80vh] overflow-y-auto">
+        <button id="ajax-modal-close" type="button" class="ml-auto mb-2 text-gray-500">Close</button>
+        <div id="ajax-modal-content"></div>
+    </div>
+</div>
 <script>
 const messagesEl = document.getElementById('chat-messages');
 function loadMessages() {
@@ -76,6 +85,34 @@ document.getElementById('chat-form').addEventListener('submit', e => {
         document.getElementById('chat-input').value = '';
         loadMessages();
     });
+});
+const modal = document.getElementById('ajax-modal');
+const modalContent = document.getElementById('ajax-modal-content');
+function closeModal() {
+    modal.classList.add('hidden');
+    modalContent.innerHTML = '';
+}
+document.querySelectorAll('.ajax-modal').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        fetch(link.href)
+            .then(r => r.text())
+            .then(html => {
+                modalContent.innerHTML = html;
+                modal.classList.remove('hidden');
+            });
+    });
+});
+document.getElementById('ajax-modal-close').addEventListener('click', closeModal);
+modal.addEventListener('click', e => {
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
 });
 </script>
 @endsection
