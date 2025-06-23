@@ -13,4 +13,14 @@
     <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Nudge</button>
 </form>
 @endif
+
+<div id="board">
+    <div id="pathmarkers">
+@for($i = 1; $i <= 44; $i++)
+        <div id="pm{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"></div>
+@endfor
+    </div>
+    <img src="/images/blank.gif" width="800" height="449" usemap="#gamemap" alt="" />
+    {!! App\Helpers\BoardHelper::render($game) !!}
+</div>
 @endsection
