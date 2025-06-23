@@ -51,10 +51,6 @@ class Game extends Model
         return $this->hasMany(Chat::class, 'game_id');
     }
 
-    public function get_trade_value(): int
-    {
-        return 0;
-    }
 
     public function draw_players(): string
     {
@@ -94,5 +90,45 @@ class Game extends Model
         }
 
         return 0;
+    }
+
+    public function get_dice(): array
+    {
+        $log = RollLog::orderByDesc('id')->first();
+        if (!$log) {
+            return [];
+        }
+        $attack = array_filter([$log->attack_1, $log->attack_2, $log->attack_3]);
+        $defend = array_filter([$log->defend_1, $log->defend_2]);
+        return ['attack' => $attack, 'defend' => $defend];
+    }
+
+    public function draw_action(): string
+    {
+        $playerId = session('player_id');
+        $player = $this->players()->where('player_id', $playerId)->first();
+        if (!$player) {
+            return '<div id="action">You are watching</div>';
+        }
+
+        if ($this->paused) {
+            return '<div id="action">This game is paused</div>';
+        }
+
+        if ($this->state === 'Finished') {
+            return '<div id="action">The game is over</div>';
+        }
+
+        $label = match ($player->state) {
+            'Waiting' => 'It is not your turn',
+            'Trading' => 'Trade cards',
+            'Placing' => 'Place your armies',
+            'Attacking' => 'Attack opponent',
+            'Occupying' => 'Occupy territory',
+            'Fortifying' => 'Fortify position',
+            default => '',
+        };
+
+        return '<div id="action">'.$label.'</div>';
     }
 }
