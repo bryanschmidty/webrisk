@@ -22,5 +22,6 @@
     </div>
     <img src="/images/blank.gif" width="800" height="449" usemap="#gamemap" alt="" />
     {!! App\Helpers\BoardHelper::render($game) !!}
+    <div id="next">{{ $game->get_trade_value() }}</div>
 </div>
 @endsection

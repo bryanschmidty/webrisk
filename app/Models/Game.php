@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\GameLog;
 
 class Game extends Model
 {
@@ -53,5 +54,20 @@ class Game extends Model
     public static function hashPassword(string $password): string
     {
         return md5($password.'s41Ty!S7uFF');
+    }
+
+    public function get_trade_value(): int
+    {
+        $log = GameLog::where('game_id', $this->game_id)
+            ->where('data', 'like', 'V -%')
+            ->orderByDesc('create_date')
+            ->orderByDesc('microsecond')
+            ->first();
+
+        if ($log && preg_match('/\[(\d+)\]/', $log->data, $match)) {
+            return (int) $match[1];
+        }
+
+        return 0;
     }
 }
