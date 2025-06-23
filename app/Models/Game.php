@@ -54,7 +54,7 @@ class Game extends Model
     public function draw_players(): string
     {
         $players = $this->players()->with('player')->orderBy('order_num')->get();
-        $html = '<div id="players"><ul>';
+        $html = '<div id="players" class="absolute bottom-0 left-0 z-10 w-36 bg-black/80 text-white border-2 border-gray-300 border-b-0 overflow-hidden"><ul class="ml-6 space-y-1">';
         foreach ($players as $gp) {
             $class = substr($gp->color, 0, 3);
             if ($gp->player_id == session('player_id')) {
@@ -66,7 +66,7 @@ class Game extends Model
             $class .= ' '.strtolower($gp->state);
             $numCards = $gp->cards ? count(array_filter(explode(' ', $gp->cards))) : 0;
             $username = $gp->player->username ?? '';
-            $html .= '<li id="p_'.$gp->player_id.'" class="'.$class.'" title="'.$gp->state.'"><span class="cards">'.$numCards.'</span>'.$username.'</li>';
+            $html .= '<li id="p_'.$gp->player_id.'" class="'.$class.' text-left border border-gray-600 px-1 text-xs font-bold list-none" title="'.$gp->state.'"><span class="cards">'.$numCards.'</span>'.$username.'</li>';
         }
         return $html.'</ul></div>';
     }

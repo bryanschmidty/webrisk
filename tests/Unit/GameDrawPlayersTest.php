@@ -20,7 +20,7 @@ class GameDrawPlayersTest extends TestCase
         session(['player_id' => $player->player_id]);
         $html = $game->draw_players();
         $this->assertStringContainsString('id="p_'.$host->player_id.'"', $html);
-        $this->assertStringContainsString('class="red host waiting"', $html);
-        $this->assertStringContainsString('class="blu me waiting"', $html);
+        $this->assertStringContainsString('class="red host waiting', $html);
+        $this->assertStringContainsString('class="blu me waiting', $html);
     }
 }
