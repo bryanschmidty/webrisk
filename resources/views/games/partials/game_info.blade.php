@@ -40,4 +40,10 @@
             </tr>
         </tbody>
     </table>
+    @if(!empty($tradeHtml))
+        {!! $tradeHtml !!}
+    @endif
+    @if(!empty($conquerHtml))
+        {!! $conquerHtml !!}
+    @endif
 </div>
