@@ -13,12 +13,14 @@ if (!function_exists('game_info')) {
                 ->count();
             $cards = $gp->cards ? count(array_filter(explode(' ', $gp->cards))) : 0;
             return [
+                'player_id' => $gp->player_id,
                 'order' => $gp->order_num,
                 'username' => $gp->player->username ?? '',
                 'state' => $gp->state,
                 'armies' => $gp->armies,
                 'land' => $lands,
                 'cards' => $cards,
+                'conquered' => $gp->extra_info['conquered'] ?? 0,
             ];
         });
 

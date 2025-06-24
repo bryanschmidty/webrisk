@@ -40,4 +40,29 @@
             </tr>
         </tbody>
     </table>
+    @if($limit = $game->getConquerLimit())
+    <h3 class="text-lg font-semibold mt-4">Conquer Limit Progress</h3>
+    <table class="min-w-full mb-4">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($players as $p)
+            @php $width = $limit ? min(100, ($p['conquered'] / $limit) * 100) : 0; @endphp
+            <tr class="border-t">
+                <td>{{ $p['username'] }}</td>
+                <td>
+                    <div class="w-full bg-gray-200 h-2" title="{{ $p['conquered'] }} / {{ $limit }}">
+                        <div class="bg-green-500 h-2" style="width: {{ $width }}%"></div>
+                    </div>
+                    <span class="sr-only">{{ $p['conquered'] }} / {{ $limit }}</span>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    @endif
 </div>

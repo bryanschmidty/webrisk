@@ -34,6 +34,7 @@ class Game extends Model
     protected $casts = [
         'allow_kibitz' => 'boolean',
         'paused' => 'boolean',
+        'extra_info' => 'array',
     ];
 
     public function host()
@@ -69,6 +70,11 @@ class Game extends Model
             $html .= '<li id="p_'.$gp->player_id.'" class="'.$class.' text-left border border-gray-600 px-1 text-xs font-bold list-none" title="'.$gp->state.'"><span class="cards">'.$numCards.'</span>'.$username.'</li>';
         }
         return $html.'</ul></div>';
+    }
+
+    public function getConquerLimit(): ?int
+    {
+        return $this->extra_info['conquer_limit'] ?? null;
     }
 
     public static function hashPassword(string $password): string

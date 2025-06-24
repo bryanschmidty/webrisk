@@ -33,6 +33,7 @@ class GamePlayer extends Model
 
     protected $casts = [
         'move_date' => 'datetime',
+        'extra_info' => 'array',
     ];
 
     public function game()
@@ -43,5 +44,10 @@ class GamePlayer extends Model
     public function player()
     {
         return $this->belongsTo(Player::class, 'player_id');
+    }
+
+    public function getConquered(): int
+    {
+        return $this->extra_info['conquered'] ?? 0;
     }
 }
