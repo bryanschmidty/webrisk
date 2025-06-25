@@ -46,4 +46,7 @@
     @if(!empty($conquerHtml))
         {!! $conquerHtml !!}
     @endif
+    @if(!empty($conquerProgress))
+        {!! $conquerProgress !!}
+    @endif
 </div>
