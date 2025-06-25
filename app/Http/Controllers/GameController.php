@@ -45,6 +45,7 @@ class GameController extends Controller
             'warmonger' => 'boolean',
             'fog_of_war_armies' => 'required|in:all,adjacent,none',
             'fog_of_war_colors' => 'required|in:all,adjacent,none',
+            'fog_of_war_cards' => 'required|in:all,self',
             'nuke' => 'boolean',
             'turncoat' => 'boolean',
             'place_initial_armies' => 'boolean',
@@ -59,6 +60,7 @@ class GameController extends Controller
             'warmonger' => (bool) ($data['warmonger'] ?? false),
             'fog_of_war_armies' => $data['fog_of_war_armies'],
             'fog_of_war_colors' => $data['fog_of_war_colors'],
+            'fog_of_war_cards' => $data['fog_of_war_cards'],
             'nuke' => (bool) ($data['nuke'] ?? false),
             'turncoat' => (bool) ($data['turncoat'] ?? false),
             'place_initial_armies' => (bool) ($data['place_initial_armies'] ?? false),
@@ -147,8 +149,12 @@ class GameController extends Controller
 
     protected function nudgablePlayers(Game $game, int $hours): array
     {
+        $exclude = ['Resigned', 'Dead'];
+        if ($game->state !== 'Placing') {
+            $exclude[] = 'Waiting';
+        }
         $players = GamePlayer::where('game_id', $game->game_id)
-            ->whereNotIn('state', ['Waiting', 'Resigned', 'Dead'])
+            ->whereNotIn('state', $exclude)
             ->get();
         $ids = [];
         foreach ($players as $gp) {

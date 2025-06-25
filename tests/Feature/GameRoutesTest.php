@@ -44,6 +44,7 @@ class GameRoutesTest extends TestCase
             'fortify' => true,
             'fog_of_war_armies' => 'all',
             'fog_of_war_colors' => 'all',
+            'fog_of_war_cards' => 'all',
             'initial_army_limit' => 0,
         ]);
         $game = Game::first();
