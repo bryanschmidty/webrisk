@@ -51,6 +51,13 @@
         </div>
     </div>
     <div>
+        <label class="block mb-1">Fog of War Cards</label>
+        <div class="flex gap-2">
+            <label class="flex items-center gap-1"><input type="radio" class="rounded" name="fog_of_war_cards" value="all" @checked(old('fog_of_war_cards','all')=='all')>All</label>
+            <label class="flex items-center gap-1"><input type="radio" class="rounded" name="fog_of_war_cards" value="self" @checked(old('fog_of_war_cards')=='self')>Self Only</label>
+        </div>
+    </div>
+    <div>
         <label class="flex items-center gap-2"><input type="checkbox" class="rounded" name="nuke" value="1" @checked(old('nuke'))>Nuclear War</label>
     </div>
     <div>
