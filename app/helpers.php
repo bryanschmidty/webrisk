@@ -2,6 +2,7 @@
 
 use App\Models\Game;
 use App\Models\GameLand;
+use App\Models\GamePlayer;
 
 if (!function_exists('game_info')) {
     function game_info(Game $game): string
@@ -25,13 +26,32 @@ if (!function_exists('game_info')) {
         $extra = $game->extra_info ? json_decode($game->extra_info, true) : [];
         $tradeValues = $extra['trade_values'] ?? [];
         $tradeHtml = $tradeValues ? trade_table($tradeValues, $extra['trade_count'] ?? 0) : '';
-        $conquerHtml = isset($extra['conquer_type']) ? conquer_limit_table($extra) : '';
+
+        $playerId = session('player_id');
+        $player = $playerId ? $game->players()->where('player_id', $playerId)->first() : null;
+        $conquerProgress = '';
+        $conquerHtml = '';
+        if ($player && isset($extra['conquer_type'])) {
+            $limit = calculate_conquer_limit($game, $player);
+            $playerExtra = $player->extra_info ? json_decode($player->extra_info, true) : [];
+            $conquered = (int)($playerExtra['conquered'] ?? 0);
+            $percent = $limit > 0 ? min(100, ($conquered / $limit) * 100) : 0;
+            $conquerHtml = conquer_limit_table($extra, $limit);
+            $conquerProgress = view('components.conquer-progress', [
+                'conquered' => $conquered,
+                'limit' => $limit,
+                'percent' => $percent,
+            ])->render();
+        } elseif (isset($extra['conquer_type'])) {
+            $conquerHtml = conquer_limit_table($extra);
+        }
 
         return view('games.partials.game_info', [
             'game' => $game,
             'players' => $info,
             'tradeHtml' => $tradeHtml,
             'conquerHtml' => $conquerHtml,
+            'conquerProgress' => $conquerProgress,
         ])->render();
     }
 }
@@ -111,8 +131,73 @@ if (!function_exists('trade_table')) {
     }
 }
 
+if (!function_exists('calculate_conquer_limit')) {
+    function calculate_conquer_limit(Game $game, GamePlayer $player): int
+    {
+        $extra = $game->extra_info ? json_decode($game->extra_info, true) : [];
+        $type = $extra['conquer_type'] ?? 'none';
+        if ($type === 'none') {
+            return 0;
+        }
+        $skip = (int)($extra['conquer_skip'] ?? 0);
+        $startAt = (int)($extra['conquer_start_at'] ?? 0);
+        $conquestsPer = (int)($extra['conquer_conquests_per'] ?? 1);
+        $perNumber = (int)($extra['conquer_per_number'] ?? 0);
+        if (!$perNumber) {
+            $perNumber = match ($type) {
+                'trade_value' => 10,
+                'trade_count' => 2,
+                'rounds' => 1,
+                'turns' => 1,
+                'land' => 3,
+                'continents' => 1,
+                'armies' => 10,
+                default => 1,
+            };
+        }
+        $minimum = (int)($extra['conquer_minimum'] ?? 1);
+        if ($minimum < 1) {
+            $minimum = 1;
+        }
+        $maximum = (int)($extra['conquer_maximum'] ?? 42);
+        $startCount = in_array($type, ['trade_value', 'trade_count', 'continents']) ? 0 : 1;
+
+        $info = $player->extra_info ? json_decode($player->extra_info, true) : [];
+        $amount = 0;
+        switch ($type) {
+            case 'trade_value':
+                $amount = $game->get_trade_value();
+                break;
+            case 'trade_count':
+                $amount = (int)($extra['trade_count'] ?? 0);
+                break;
+            case 'rounds':
+                $amount = (int)($info['round'] ?? 1);
+                break;
+            case 'turns':
+                $amount = (int)($info['turn'] ?? 1);
+                break;
+            case 'land':
+                $amount = GameLand::where('game_id', $game->game_id)
+                    ->where('player_id', $player->player_id)
+                    ->count();
+                break;
+            case 'armies':
+                $amount = GameLand::where('game_id', $game->game_id)
+                    ->where('player_id', $player->player_id)
+                    ->sum('armies');
+                break;
+            default:
+                $amount = 1;
+        }
+        $limit = max((((((int) floor(($amount - $startCount) / $perNumber)) + 1) - $skip) * $conquestsPer), 0) + $startAt;
+        $limit = max($minimum, min($limit, $maximum));
+        return (int)$limit;
+    }
+}
+
 if (!function_exists('conquer_limit_table')) {
-    function conquer_limit_table(array $extra): string
+    function conquer_limit_table(array $extra, int $highlight = 0): string
     {
         if (($extra['conquer_type'] ?? 'none') === 'none') {
             return '';
@@ -165,6 +250,7 @@ if (!function_exists('conquer_limit_table')) {
             'type' => $type,
             'limits' => $conquests,
             'equation' => $equation,
+            'highlight' => $highlight,
         ])->render();
     }
 }

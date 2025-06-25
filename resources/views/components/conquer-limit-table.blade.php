@@ -8,7 +8,7 @@
     </thead>
     <tbody>
     @foreach($limits as $count => $value)
-        <tr class="{{ $loop->iteration % 2 === 0 ? 'alt' : '' }}">
+        <tr class="{{ $loop->iteration % 2 === 0 ? 'alt' : '' }}{{ $highlight == $value ? ' highlight' : '' }}">
             <td>{{ $count }}</td>
             <td>{{ $value }}</td>
         </tr>
